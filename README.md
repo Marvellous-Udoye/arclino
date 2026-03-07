@@ -1,36 +1,158 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Arclino
+
+Arclino is a real-time collaborative flowchart workspace for product, engineering, and operations teams. It ships a premium marketing site and a protected app experience with workspace-based access control.
+
+## Features
+
+- Real-time collaboration (nodes, edges, chat, activity)
+- Workspace-level roles (Owner, Editor, Viewer)
+- Board invite links with role-gated access
+- Presence and activity feed
+- Supabase Auth + Postgres (RLS)
+- Pusher realtime channels
+
+## Tech Stack
+
+- Next.js App Router
+- React 19
+- TypeScript
+- TailwindCSS 4
+- ShadCN UI
+- Framer Motion
+- Supabase
+- Pusher
+- React Flow
 
 ## Getting Started
 
-First, run the development server:
+### Requirements
+
+- Node.js 20+
+- pnpm 9+
+
+### Install
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Environment Variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Create a `.env.local` file based on `.env.example`:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+PUSHER_APP_ID=
+PUSHER_KEY=
+PUSHER_SECRET=
+PUSHER_CLUSTER=
+NEXT_PUBLIC_PUSHER_KEY=
+NEXT_PUBLIC_PUSHER_CLUSTER=
+```
 
-## Learn More
+### Development
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+pnpm dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Build
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+pnpm build
+pnpm start
+```
 
-## Deploy on Vercel
+## Project Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+src/
++-- app/                          # Next.js App Router
+ï¿½   +-- (external)/               # Marketing site routes
+ï¿½   +-- (auth)/                   # Authentication routes
+ï¿½   +-- (dashboard)/              # App shell and boards
+ï¿½   +-- onboarding/               # Workspace creation
+ï¿½   +-- invite/                   # Board invite link flows
+ï¿½   +-- api/                      # Route handlers (proxy, session, pusher auth)
+ï¿½   +-- loading.tsx               # Global loading
+ï¿½   +-- error.tsx                 # Global error boundary
+ï¿½   +-- not-found.tsx             # 404
++-- components/
+ï¿½   +-- external/                 # External layout primitives (navbar/footer)
+ï¿½   +-- dashboard/                # Dashboard blocks and layout parts
+ï¿½   +-- ui/                       # ShadCN UI components
++-- lib/
+ï¿½   +-- external/                 # External content sources
+ï¿½   +-- motion.ts                 # Shared motion primitives
+ï¿½   +-- pusher/                   # Realtime helpers (server/client)
+ï¿½   +-- supabase/                 # Auth + DB helpers
+ï¿½   +-- utils.ts                  # Utility helpers
++-- providers/                    # Theme + query providers
++-- stores/                       # Zustand stores
++-- types/                        # Shared TypeScript types
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Routes
+
+### Marketing (External)
+
+- `/`
+- `/solutions/*`
+- `/customers/*`
+- `/resources/*`
+- `/pricing`
+- `/about`
+- `/contact`
+- `/security`
+- `/legal/*`
+
+### App
+
+- `/auth/*`
+- `/onboarding/workspace`
+- `/app`
+- `/app/boards/[boardId]`
+- `/app/settings/*`
+- `/invite/board/[token]`
+
+## Data Model (Supabase)
+
+Core tables:
+
+- `profiles`
+- `workspaces`
+- `workspace_members`
+- `boards`
+- `board_nodes`
+- `board_edges`
+- `board_events`
+- `board_messages`
+- `board_comments` (optional)
+- `board_invite_links`
+- `invites`
+
+## Realtime Channels
+
+- `presence-board-[boardId]`
+- `private-board-[boardId]`
+
+## Scripts
+
+```bash
+pnpm dev
+pnpm build
+pnpm start
+pnpm lint
+```
+
+## Conventions
+
+- All filenames use kebab-case.
+- Use ShadCN UI for all UI components.
+- Validate server inputs with Zod.
+- RLS is the source of truth for access control.
+
+## License
+
+Private.
