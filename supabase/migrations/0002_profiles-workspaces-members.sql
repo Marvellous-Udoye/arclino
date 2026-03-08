@@ -74,24 +74,24 @@ security definer
 set search_path = public
 as $$
 declare
-  current_user auth.users%rowtype;
+  auth_user_row record;
   profile_row public.profiles%rowtype;
 begin
   select *
-  into current_user
+  into auth_user_row
   from auth.users
   where id = auth.uid();
 
-  if current_user.id is null then
+  if auth_user_row is null then
     raise exception 'Authentication required';
   end if;
 
   insert into public.profiles(id, email, full_name, avatar_url)
   values (
-    current_user.id,
-    coalesce(current_user.email, ''),
-    coalesce(full_name, current_user.raw_user_meta_data ->> 'full_name', current_user.raw_user_meta_data ->> 'name'),
-    current_user.raw_user_meta_data ->> 'avatar_url'
+    auth_user_row.id,
+    coalesce(auth_user_row.email, ''),
+    coalesce(full_name, auth_user_row.raw_user_meta_data ->> 'full_name', auth_user_row.raw_user_meta_data ->> 'name'),
+    auth_user_row.raw_user_meta_data ->> 'avatar_url'
   )
   on conflict (id) do update
   set

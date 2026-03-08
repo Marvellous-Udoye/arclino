@@ -74,7 +74,7 @@ begin
   where invite.token = _token
   limit 1;
 
-  if invite_row.id is null then
+  if invite_row is null then
     raise exception 'Invite not found';
   end if;
 
