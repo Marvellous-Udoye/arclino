@@ -1,15 +1,10 @@
-export default function Page() {
+import { StubPage } from "@/components/external/stub-page"
+
+export default function SecurityPage() {
   return (
-    <main className=\"mx-auto max-w-3xl px-6 py-20 text-zinc-200\">
-      <h1 className=\"text-3xl font-semibold text-white\">Page</h1>
-      <p className=\"mt-4 text-sm text-zinc-400\">
-        Placeholder content.
-      </p>
-    </main>
+    <StubPage
+      title="Security"
+      description="Security posture is enforced primarily through Supabase Auth, strict RLS, SSR session checks, and server-side Pusher authorization."
+    />
   )
 }
-
-
-
-
-

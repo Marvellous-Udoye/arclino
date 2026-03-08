@@ -1,8 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { LazyMotion, domAnimation, motion, useReducedMotion } from "framer-motion"
-import type { Variants } from "framer-motion"
+import { LazyMotion, domAnimation, motion, useReducedMotion, type Variants } from "framer-motion"
 
 export const viewportConfig = {
   once: true,
@@ -10,10 +9,7 @@ export const viewportConfig = {
   margin: "0px 0px -50px 0px",
 }
 
-export const staggerContainer = (
-  stagger = 0.08,
-  delayChildren = 0.02
-): Variants => ({
+export const staggerContainer = (stagger = 0.08, delayChildren = 0.02): Variants => ({
   hidden: {},
   show: {
     transition: {
@@ -64,24 +60,18 @@ export const slideInRight: Variants = {
   },
 }
 
-const variantMap: Record<
-  "fadeUp" | "fadeIn" | "scaleIn" | "slideInLeft" | "slideInRight",
-  Variants
-> = {
+const variantMap = {
   fadeUp: fadeInUp,
   fadeIn,
   scaleIn,
   slideInLeft,
   slideInRight,
-}
+} as const
 
-type RevealProps = React.ComponentProps<typeof motion.div> & {
-  variant?: keyof typeof variantMap
-  delay?: number
-}
+type MotionDivProps = React.ComponentProps<typeof motion.div>
 
 export function MotionProvider({ children }: { children: React.ReactNode }) {
-  return React.createElement(LazyMotion, { features: domAnimation }, children)
+  return React.createElement(LazyMotion, { features: domAnimation }, children as React.ReactNode)
 }
 
 export function useReducedMotionPref() {
@@ -94,9 +84,8 @@ export function Reveal({
   variant = "fadeUp",
   delay = 0,
   ...props
-}: RevealProps) {
+}: MotionDivProps & { variant?: keyof typeof variantMap; delay?: number }) {
   const reduced = useReducedMotionPref()
-  const chosen = variantMap[variant]
 
   return React.createElement(
     motion.div,
@@ -105,17 +94,12 @@ export function Reveal({
       initial: "hidden",
       whileInView: "show",
       viewport: viewportConfig,
-      variants: reduced ? fadeIn : chosen,
+      variants: reduced ? fadeIn : variantMap[variant],
       transition: { delay },
       ...props,
     },
-    children
+    children as React.ReactNode
   )
-}
-
-type StaggerProps = React.ComponentProps<typeof motion.div> & {
-  stagger?: number
-  delayChildren?: number
 }
 
 export function Stagger({
@@ -124,7 +108,7 @@ export function Stagger({
   stagger = 0.08,
   delayChildren = 0.02,
   ...props
-}: StaggerProps) {
+}: MotionDivProps & { stagger?: number; delayChildren?: number }) {
   const reduced = useReducedMotionPref()
 
   return React.createElement(
@@ -137,13 +121,11 @@ export function Stagger({
       variants: reduced ? undefined : staggerContainer(stagger, delayChildren),
       ...props,
     },
-    children
+    children as React.ReactNode
   )
 }
 
-type PageTransitionProps = React.ComponentProps<typeof motion.div>
-
-export function PageTransition({ children, className, ...props }: PageTransitionProps) {
+export function PageTransition({ children, className, ...props }: MotionDivProps) {
   const reduced = useReducedMotionPref()
 
   return React.createElement(
@@ -156,13 +138,11 @@ export function PageTransition({ children, className, ...props }: PageTransition
       transition: { duration: 0.2, ease: "easeOut" },
       ...props,
     },
-    children
+    children as React.ReactNode
   )
 }
 
-type AuthCardMotionProps = React.ComponentProps<typeof motion.div>
-
-export function AuthCardMotion({ children, className, ...props }: AuthCardMotionProps) {
+export function AuthCardMotion({ children, className, ...props }: MotionDivProps) {
   const reduced = useReducedMotionPref()
 
   return React.createElement(
@@ -174,13 +154,11 @@ export function AuthCardMotion({ children, className, ...props }: AuthCardMotion
       transition: { duration: 0.2, ease: "easeOut" },
       ...props,
     },
-    children
+    children as React.ReactNode
   )
 }
 
-type AuthStaggerProps = React.ComponentProps<typeof motion.div>
-
-export function AuthStagger({ children, className, ...props }: AuthStaggerProps) {
+export function AuthStagger({ children, className, ...props }: MotionDivProps) {
   const reduced = useReducedMotionPref()
 
   return React.createElement(
@@ -192,13 +170,11 @@ export function AuthStagger({ children, className, ...props }: AuthStaggerProps)
       variants: reduced ? undefined : staggerContainer(0.08, 0.05),
       ...props,
     },
-    children
+    children as React.ReactNode
   )
 }
 
-type AuthStaggerItemProps = React.ComponentProps<typeof motion.div>
-
-export function AuthStaggerItem({ children, className, ...props }: AuthStaggerItemProps) {
+export function AuthStaggerItem({ children, className, ...props }: MotionDivProps) {
   const reduced = useReducedMotionPref()
 
   return React.createElement(
@@ -208,13 +184,11 @@ export function AuthStaggerItem({ children, className, ...props }: AuthStaggerIt
       variants: reduced ? undefined : fadeInUp,
       ...props,
     },
-    children
+    children as React.ReactNode
   )
 }
 
-type PanelTransitionProps = React.ComponentProps<typeof motion.div>
-
-export function PanelTransition({ children, className, ...props }: PanelTransitionProps) {
+export function PanelTransition({ children, className, ...props }: MotionDivProps) {
   const reduced = useReducedMotionPref()
 
   return React.createElement(
@@ -227,7 +201,6 @@ export function PanelTransition({ children, className, ...props }: PanelTransiti
       transition: { duration: 0.18, ease: "easeOut" },
       ...props,
     },
-    children
+    children as React.ReactNode
   )
 }
-

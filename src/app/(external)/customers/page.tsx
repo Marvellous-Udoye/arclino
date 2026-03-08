@@ -1,15 +1,10 @@
-export default function Page() {
+import { StubPage } from "@/components/external/stub-page"
+
+export default function CustomersPage() {
   return (
-    <main className=\"mx-auto max-w-3xl px-6 py-20 text-zinc-200\">
-      <h1 className=\"text-3xl font-semibold text-white\">Page</h1>
-      <p className=\"mt-4 text-sm text-zinc-400\">
-        Placeholder content.
-      </p>
-    </main>
+    <StubPage
+      title="Customers"
+      description="Customer proof points are intentionally lightweight in this rebuild. The protected collaboration app is the implementation priority."
+    />
   )
 }
-
-
-
-
-

@@ -1,15 +1,16 @@
-export default function Page() {
+import { StubPage } from "@/components/external/stub-page"
+
+export default async function CustomerCaseStudyPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}) {
+  const { slug } = await params
+
   return (
-    <main className=\"mx-auto max-w-3xl px-6 py-20 text-zinc-200\">
-      <h1 className=\"text-3xl font-semibold text-white\">Page</h1>
-      <p className=\"mt-4 text-sm text-zinc-400\">
-        Placeholder content.
-      </p>
-    </main>
+    <StubPage
+      title={`Case study: ${slug}`}
+      description="Case study detail pages are stubbed in v1 while the main investment remains in auth, boards, realtime collaboration, and workspace security."
+    />
   )
 }
-
-
-
-
-

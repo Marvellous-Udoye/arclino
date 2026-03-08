@@ -1,15 +1,10 @@
-export default function Page() {
+import { StubPage } from "@/components/external/stub-page"
+
+export default function SolutionsPage() {
   return (
-    <main className=\"mx-auto max-w-3xl px-6 py-20 text-zinc-200\">
-      <h1 className=\"text-3xl font-semibold text-white\">Page</h1>
-      <p className=\"mt-4 text-sm text-zinc-400\">
-        Placeholder content.
-      </p>
-    </main>
+    <StubPage
+      title="Solutions"
+      description="Arclino supports product, engineering, startups, and operations teams that need a shared visual map with auditability."
+    />
   )
 }
-
-
-
-
-
