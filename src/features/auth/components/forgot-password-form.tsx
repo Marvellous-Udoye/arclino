@@ -4,8 +4,8 @@ import Link from "next/link"
 import { useState, useTransition } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { forgotPasswordAction } from "@/features/auth/actions/auth-actions"
 import { forgotPasswordSchema } from "@/features/auth/schemas/auth-schema"
-import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -30,17 +30,14 @@ export function ForgotPasswordForm() {
     startTransition(async () => {
       setError(null)
       setMessage(null)
-      const supabase = createClient()
-      const { error: resetError } = await supabase.auth.resetPasswordForEmail(values.email, {
-        redirectTo: `${window.location.origin}/callback?next=/dashboard`,
-      })
+      const result = await forgotPasswordAction(values)
 
-      if (resetError) {
-        setError(resetError.message)
+      if (result?.error) {
+        setError(result.error)
         return
       }
 
-      setMessage("If an account exists, a reset link has been sent.")
+      setMessage(result?.data?.message ?? "If an account exists, a reset link has been sent.")
     })
   })
 

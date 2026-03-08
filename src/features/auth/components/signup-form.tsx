@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { useState, useTransition } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { signupAction } from "@/features/auth/actions/auth-actions"
 import { signupSchema } from "@/features/auth/schemas/auth-schema"
 import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
@@ -36,33 +37,23 @@ export function SignupForm() {
     startTransition(async () => {
       setError(null)
       setMessage(null)
-      const supabase = createClient()
+      const result = await signupAction(values)
 
-      const { data, error: signUpError } = await supabase.auth.signUp({
-        email: values.email,
-        password: values.password,
-        options: {
-          data: {
-            full_name: values.fullName,
-            name: values.fullName,
-          },
-          emailRedirectTo: `${window.location.origin}/callback?next=/dashboard`,
-        },
-      })
-
-      if (signUpError) {
-        setError(signUpError.message)
+      if (result?.error) {
+        setError(result.error)
         return
       }
 
-      if (data.session) {
-        await supabase.rpc("ensure_profile", { full_name: values.fullName })
-        router.replace("/dashboard")
+      if (result?.data?.immediate) {
+        router.replace(result.data.next ?? "/dashboard")
         router.refresh()
         return
       }
 
-      setMessage("Check your email to confirm your account, then continue to the app.")
+      setMessage(
+        result?.data?.message ??
+          "Check your email to confirm your account, then continue to the app."
+      )
     })
   })
 

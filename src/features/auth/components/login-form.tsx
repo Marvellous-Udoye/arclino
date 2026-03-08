@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { useState, useTransition } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { loginAction } from "@/features/auth/actions/auth-actions"
 import { loginSchema } from "@/features/auth/schemas/auth-schema"
 import { getSafeNextPath } from "@/features/auth/utils/next-path"
 import { createClient } from "@/lib/supabase/client"
@@ -37,20 +38,14 @@ export function LoginForm() {
   const onSubmit = form.handleSubmit((values) => {
     startTransition(async () => {
       setError(null)
-      const supabase = createClient()
+      const result = await loginAction(values)
 
-      const { error: signInError } = await supabase.auth.signInWithPassword({
-        email: values.email,
-        password: values.password,
-      })
-
-      if (signInError) {
-        setError(signInError.message)
+      if (result?.error) {
+        setError(result.error)
         return
       }
 
-      await supabase.rpc("ensure_profile", {})
-      router.replace(next)
+      router.replace(result?.data?.next ?? next)
       router.refresh()
     })
   })
