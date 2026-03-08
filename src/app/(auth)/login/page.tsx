@@ -1,14 +1,5 @@
-import { LoginForm } from "@/app/(auth)/_components/login-form"
-import { AuthCardMotion } from "@/lib/motion"
+import { LoginForm } from "@/features/auth/components/login-form"
 
 export default function LoginPage() {
-  return (
-    <AuthCardMotion>
-      <LoginForm />
-    </AuthCardMotion>
-  )
+  return <LoginForm />
 }
-
-
-
-

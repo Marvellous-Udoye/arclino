@@ -1,28 +1,29 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { AuthCardMotion } from "@/lib/motion"
+import { redirect } from "next/navigation"
+import { authCallbackSchema } from "@/features/auth/schemas/auth-schema"
+import { getSafeNextPath } from "@/features/auth/utils/next-path"
+import { createClient } from "@/lib/supabase/server"
 
-export const metadata = {
-  title: "Authenticating -- Arclino",
+export default async function AuthCallbackPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>
+}) {
+  const params = await searchParams
+  const parsed = authCallbackSchema.safeParse({
+    code: typeof params.code === "string" ? params.code : undefined,
+    next: typeof params.next === "string" ? params.next : undefined,
+  })
+
+  const next = getSafeNextPath(parsed.success ? parsed.data.next : undefined, "/dashboard")
+  const supabase = await createClient()
+
+  if (parsed.success && parsed.data.code) {
+    const { error } = await supabase.auth.exchangeCodeForSession(parsed.data.code)
+    if (error) {
+      redirect(`/login?error=${encodeURIComponent(error.message)}`)
+    }
+  }
+
+  await supabase.rpc("ensure_profile", {})
+  redirect(next)
 }
-
-export default function AuthCallbackPage() {
-  return (
-    <AuthCardMotion>
-      <Card className="border-white/10 bg-black/70 backdrop-blur">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl text-white">Completing sign-in</CardTitle>
-          <CardDescription className="text-zinc-400">
-            We are finalizing your session. You will be redirected shortly.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="text-center text-sm text-zinc-400">
-          Syncing your workspace and permissions.
-        </CardContent>
-      </Card>
-    </AuthCardMotion>
-  )
-}
-
-
-
-

@@ -1,36 +1,29 @@
-import { NextResponse } from "next/server"
-import type { NextRequest } from "next/server"
+import { NextResponse, type NextRequest } from "next/server"
+import { updateSession } from "@/lib/supabase/middleware"
 
-const TOKEN_COOKIE = "token"
+const protectedPrefixes = ["/dashboard", "/onboarding", "/invite/board"]
 
-const PROTECTED_ROUTES = ["/dashboard", "/onboarding", "/invite/board"]
+export async function middleware(request: NextRequest) {
+  const { response, supabase } = await updateSession(request)
+  const pathname = request.nextUrl.pathname
+  const isProtected = protectedPrefixes.some((prefix) => pathname.startsWith(prefix))
 
-export function middleware(req: NextRequest) {
-  const { pathname } = req.nextUrl
-
-  const isProtectedRoute = PROTECTED_ROUTES.some((route) =>
-    pathname.startsWith(route)
-  )
-
-  if (isProtectedRoute) {
-    const token = req.cookies.get(TOKEN_COOKIE)?.value
-    if (!token) {
-      const loginUrl = new URL("/auth/login", req.url)
-      loginUrl.searchParams.set("next", pathname)
-      return NextResponse.redirect(loginUrl)
-    }
-
-    const role = (req.cookies.get("user_role")?.value || "")
-      .toLowerCase()
-      .trim()
-      .replace(/_/g, " ")
-
-    if (pathname.startsWith("/dashboard/settings/members") && role !== "owner") {
-      return NextResponse.redirect(new URL("/dashboard", req.url))
-    }
+  if (!isProtected) {
+    return response
   }
 
-  return NextResponse.next()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) {
+    const loginUrl = request.nextUrl.clone()
+    loginUrl.pathname = "/login"
+    loginUrl.searchParams.set("next", pathname)
+    return NextResponse.redirect(loginUrl)
+  }
+
+  return response
 }
 
 export const config = {
