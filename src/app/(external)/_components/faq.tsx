@@ -1,8 +1,9 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { cn } from '@/lib/utils';
+
 import { LayerStack, Card } from '@/components/external/layer-stack';
+import { cn } from '@/lib/utils';
 
 interface FAQItem {
   question: string;
@@ -19,50 +20,50 @@ interface FrequentlyAskedQuestionsStackProps {
 
 const defaultFAQs: FAQItem[] = [
   {
-    question: 'What is the purpose of this website?',
+    question: 'Who is Arclino for?',
     answer:
-      'We help you find the best products and services by curating top-quality offerings so you can make informed decisions fast.',
+      'Arclino is built for product, engineering, operations, and startup teams that need a shared, living map of how work and systems connect.',
   },
   {
-    question: 'How do I contact support?',
+    question: 'Can viewers participate without editing the board?',
     answer:
-      'Email us at support@example.com or use the live chat in the bottom-right corner. We respond within 24 hours on business days.',
+      'Yes. Viewers can read boards, activity, and messages while still taking part in board chat without mutating nodes or edges.',
   },
   {
-    question: 'How do I find the best products?',
+    question: 'How does realtime collaboration stay controlled?',
     answer:
-      'Use the search bar to browse by category, keyword, or brand. Filter by rating, price, and availability to narrow down your options.',
+      'Presence, throttled board events, and temporary node locks keep multiple collaborators aligned while preserving editing clarity.',
   },
   {
-    question: 'Can I return a product?',
+    question: 'Can we invite people without changing existing member roles?',
     answer:
-      'Yes, we offer a hassle-free 30-day return policy. Go to your order history, select the item, and follow the steps. Refunds take 5–7 business days.',
+      'Yes. Invite links can grant editor or viewer access, and existing workspace members keep their current role if they open a higher invite.',
   },
   {
-    question: 'Do you offer international shipping?',
+    question: 'Is activity history included?',
     answer:
-      'We ship to over 50 countries. Rates and estimated delivery times are calculated at checkout based on your location.',
+      'Yes. Board events are persisted so teams can review recent changes and understand how a workflow evolved over time.',
   },
   {
-    question: 'How can I track my order?',
+    question: 'How do we get help?',
     answer:
-      "Once dispatched, you'll receive a confirmation email with a tracking number to follow your package in real time.",
+      'Contact support@arclino.com for onboarding guidance, workspace questions, and help structuring your boards for the team.',
   },
 ];
 
 export default function FrequentlyAskedQuestions({
   title = 'Frequently asked questions',
-  description = "We are here to help you with any questions you may have. If you don't find what you need, please contact us.",
+  description = "Everything teams usually need clarified before their first shared workspace goes live.",
   data = defaultFAQs,
   className,
-  supportEmail = 'support@example.com',
+  supportEmail = 'support@arclino.com',
 }: FrequentlyAskedQuestionsStackProps) {
   const words = title.split(' ');
 
   return (
     <section className={cn('relative w-full overflow-hidden py-24', className)}>
       <div className='mx-auto max-w-5xl px-6'>
-        <h1 className='relative z-10 mx-auto max-w-4xl text-center text-3xl font-bold tracking-tight text-zinc-800 md:text-5xl lg:text-6xl dark:text-zinc-100'>
+        <h2 className='relative z-10 mx-auto max-w-4xl text-center text-3xl font-bold tracking-tight text-foreground md:text-5xl lg:text-6xl'>
           {words.map((word, index) => (
             <motion.span
               key={`${word}-${index}`}
@@ -79,19 +80,19 @@ export default function FrequentlyAskedQuestions({
               {word}
             </motion.span>
           ))}
-        </h1>
+        </h2>
 
         <motion.p
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className='relative z-10 mx-auto mt-6 max-w-2xl text-center text-base text-zinc-500 dark:text-zinc-400 md:text-lg'
+          className='relative z-10 mx-auto mt-6 max-w-2xl text-center text-base text-muted-foreground md:text-lg'
         >
           {description}{' '}
           <a
             href={`mailto:${supportEmail}`}
-            className='text-primary underline underline-offset-4 hover:opacity-80 transition-opacity'
+            className='text-primary underline underline-offset-4 transition-opacity hover:opacity-80'
           >
             {supportEmail}
           </a>
@@ -111,73 +112,37 @@ export default function FrequentlyAskedQuestions({
             lastCardFullWidth={true}
             mobileSensitivity={1.8}
           >
-            {data.map((item, index) => {
-              const isLast = index === data.length - 1;
-
-              if (isLast) {
-                return (
-                  <Card
-                    key={index}
-                    className='bg-card text-foreground border border-border overflow-hidden'
-                  >
-                    <div className='flex h-full flex-col justify-between p-6 md:p-8 gap-4'>
-                      <div className='flex items-center justify-between'>
-                        <span className='text-[11px] font-medium tracking-[0.16em] uppercase text-muted-foreground'>
-                          {String(index + 1).padStart(2, '0')}
-                        </span>
-                        <div className='size-1.5 rounded-full bg-foreground/20 dark:bg-foreground/40' />
-                      </div>
-                      <div className='space-y-3 flex-1'>
-                        <div className='h-px w-8 bg-border' />
-                        <h3 className='text-xl md:text-2xl font-semibold tracking-tight leading-tight'>
-                          {item.question}
-                        </h3>
-                        <p className='text-sm leading-relaxed text-muted-foreground'>
-                          {item.answer}
-                        </p>
-                      </div>
-                      <div className='pt-3 border-t border-border'>
-                        <p className='text-[10px] tracking-[0.14em] uppercase text-muted-foreground'>
-                          Question {index + 1} of {data.length}
-                        </p>
-                      </div>
-                    </div>
-                  </Card>
-                );
-              }
-
-              return (
-                <Card
-                  key={index}
-                  className='bg-card text-foreground border border-border overflow-hidden'
-                >
-                  <div className='flex h-full flex-col justify-between p-6 md:p-8 gap-4'>
-                    <div className='flex items-center justify-between'>
-                      <span className='text-[11px] font-medium tracking-[0.16em] uppercase text-muted-foreground'>
-                        {String(index + 1).padStart(2, '0')}
-                      </span>
-                      <div className='size-1.5 rounded-full bg-foreground/20 dark:bg-foreground/40' />
-                    </div>
-
-                    <div className='space-y-3 flex-1'>
-                      <div className='h-px w-8 bg-border' />
-                      <h3 className='text-xl md:text-2xl font-semibold tracking-tight leading-tight'>
-                        {item.question}
-                      </h3>
-                      <p className='text-sm leading-relaxed text-muted-foreground'>
-                        {item.answer}
-                      </p>
-                    </div>
-
-                    <div className='pt-3 border-t border-border'>
-                      <p className='text-[10px] tracking-[0.14em] uppercase text-muted-foreground'>
-                        Question {index + 1} of {data.length}
-                      </p>
-                    </div>
+            {data.map((item, index) => (
+              <Card
+                key={index}
+                className='overflow-hidden border border-border bg-card text-foreground'
+              >
+                <div className='flex h-full flex-col justify-between gap-4 p-6 md:p-8'>
+                  <div className='flex items-center justify-between'>
+                    <span className='text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground'>
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                    <div className='size-1.5 rounded-full bg-foreground/20' />
                   </div>
-                </Card>
-              );
-            })}
+
+                  <div className='flex-1 space-y-3'>
+                    <div className='h-px w-8 bg-border' />
+                    <h3 className='text-xl font-semibold leading-tight tracking-tight md:text-2xl'>
+                      {item.question}
+                    </h3>
+                    <p className='text-sm leading-relaxed text-muted-foreground'>
+                      {item.answer}
+                    </p>
+                  </div>
+
+                  <div className='border-t border-border pt-3'>
+                    <p className='text-[10px] uppercase tracking-[0.14em] text-muted-foreground'>
+                      Question {index + 1} of {data.length}
+                    </p>
+                  </div>
+                </div>
+              </Card>
+            ))}
           </LayerStack>
         </motion.div>
       </div>

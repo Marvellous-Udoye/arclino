@@ -193,6 +193,49 @@
   .nudge-shake { animation: none; }
 }
 
+@keyframes canopy-horizontal {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+  }
+}
+
+@keyframes canopy-vertical {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(-100% - var(--gap)));
+  }
+}
+
+.animate-canopy-horizontal {
+  animation: canopy-horizontal var(--duration) linear infinite;
+  will-change: transform;
+}
+
+.animate-canopy-vertical {
+  animation: canopy-vertical var(--duration) linear infinite;
+  will-change: transform;
+}
+
+.direction-reverse {
+  animation-direction: reverse;
+}
+
+.group:hover .paused-on-hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-canopy-horizontal,
+  .animate-canopy-vertical {
+    animation: none;
+  }
+}
+
 
 
 

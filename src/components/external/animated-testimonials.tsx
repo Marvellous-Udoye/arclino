@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 import { cn } from '@/lib/utils';
 
@@ -30,20 +31,26 @@ const AnimatedCanopy = ({
   <div
     {...props}
     className={cn(
-      'group relative flex h-full w-full overflow-hidden p-2 [--duration:10s] [--gap:12px] gap-(--gap)',
+      'group relative flex h-full w-full overflow-hidden p-2 [--duration:10s] [--gap:12px]',
       vertical ? 'flex-col' : 'flex-row',
       className,
     )}
+    style={{
+      gap: 'var(--gap)',
+    }}
   >
     {Array.from({ length: repeat }).map((_, index) => (
       <div
         key={`item-${index}`}
-        className={cn('flex shrink-0 gap-(--gap)', {
-          'group-hover:paused': pauseOnHover,
+        className={cn('flex shrink-0', {
+          'paused-on-hover': pauseOnHover,
           'direction-reverse': reverse,
           'animate-canopy-horizontal flex-row': !vertical,
           'animate-canopy-vertical flex-col': vertical,
         })}
+        style={{
+          gap: 'var(--gap)',
+        }}
       >
         {children}
       </div>
@@ -51,7 +58,7 @@ const AnimatedCanopy = ({
     {applyMask && (
       <div
         className={cn(
-          'pointer-events-none absolute inset-0 z-10 h-full w-full from-white/50 from-5% via-transparent via-50% to-white/50 to-95% dark:from-gray-800/50 dark:via-transparent dark:to-gray-800/50',
+          'pointer-events-none absolute inset-0 z-10 h-full w-full from-background/60 from-5% via-transparent via-50% to-background/60 to-95%',
           vertical ? 'bg-linear-to-b' : 'bg-linear-to-r',
         )}
       />
@@ -68,16 +75,18 @@ const TestimonialCard = ({
 }) => (
   <div
     className={cn(
-      'group mx-2 flex h-32 w-80 shrink-0 cursor-pointer overflow-hidden rounded-xl border border-transparent p-3 transition-all hover:border-blue-400 hover:shadow-[0_0_10px_#60a5fa] dark:hover:border-blue-400',
+      'group mx-2 flex h-32 w-80 shrink-0 cursor-pointer overflow-hidden rounded-xl border border-border bg-card p-3 transition-all hover:border-primary/60 hover:shadow-[0_0_16px_color-mix(in_oklab,var(--primary)_35%,transparent)]',
       className,
     )}
   >
     <div className='flex items-start gap-3'>
-      <div className='relative h-12 w-12 shrink-0 overflow-hidden rounded-full border-2 border-gray-200 dark:border-gray-600'>
-        <img
+      <div className='relative h-12 w-12 shrink-0 overflow-hidden rounded-full border-2 border-border'>
+        <Image
           src={testimonial.image}
           alt={testimonial.name}
-          className='h-full w-full not-prose object-cover'
+          fill
+          sizes='48px'
+          className='not-prose object-cover'
         />
       </div>
       <div className='flex-1'>
@@ -89,7 +98,7 @@ const TestimonialCard = ({
             {testimonial.handle}
           </span>
         </div>
-        <p className='mt-1 line-clamp-3 text-sm text-foreground'>
+        <p className='mt-1 line-clamp-3 text-sm text-muted-foreground'>
           {testimonial.description}
         </p>
       </div>

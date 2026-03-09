@@ -33,56 +33,54 @@ interface PricingSwitchProps {
 
 const defaultTiers: PricingTier[] = [
   {
-    name: 'Starter',
-    description: 'Perfect for individuals just getting started',
-    monthlyPrice: 9,
-    yearlyPrice: 7,
+    name: 'Viewer',
+    description: 'For teams that need shared visibility without edit access.',
+    monthlyPrice: 8,
+    yearlyPrice: 6,
     features: [
-      '10,000 Words / Month',
-      '5 Projects',
-      'Basic Analytics',
-      'Email Support',
+      'Unlimited board views',
+      'Board chat participation',
+      'Activity feed access',
+      'Invite-based onboarding',
     ],
-    buttonText: 'Get Started',
+    buttonText: 'Start viewing',
     popular: false,
   },
   {
-    name: 'Advanced',
-    description: 'Access all of your translation features',
-    monthlyPrice: 29,
-    yearlyPrice: 23,
+    name: 'Editor',
+    description: 'For active collaborators shaping the board in realtime.',
+    monthlyPrice: 24,
+    yearlyPrice: 19,
     features: [
-      '40,000 Words / Month',
-      'Unlimited Requests',
-      'Priority Support',
-      'Advanced Analytics',
+      'Node and edge editing',
+      'Realtime collaboration',
+      'Board creation',
+      'Activity logging',
     ],
-    buttonText: 'Subscribe',
+    buttonText: 'Create a workspace',
     popular: true,
   },
   {
-    name: 'Enterprise',
-    description: 'For teams that need full control and scale',
-    monthlyPrice: 79,
-    yearlyPrice: 63,
+    name: 'Owner',
+    description: 'For teams that need governance, invites, and controlled sharing.',
+    monthlyPrice: 59,
+    yearlyPrice: 47,
     features: [
-      'Unlimited Words',
-      'Custom Integrations',
-      'Dedicated Manager',
-      'SLA Guarantee',
+      'Workspace role management',
+      'Invite link controls',
+      'Board governance',
+      'Operational support',
     ],
-    buttonText: 'Contact Sales',
+    buttonText: 'Talk to us',
     popular: false,
   },
 ];
 
 const smoothEase = [0.25, 0.1, 0.25, 1] as const;
-const GRADIENT = 'linear-gradient(135deg, #f43f5e, #fb923c)';
-
 export default function Pricing({
-  title = 'Simple, Transparent Pricing',
+  title = 'Pricing that matches how teams collaborate',
   subtitle = 'Pricing',
-  description = 'Choose the plan that works best for you. Upgrade or downgrade at any time.',
+  description = 'Start with the role your team needs today, then expand access as the board becomes part of how your work ships.',
   tiers = defaultTiers,
   className,
 }: PricingSwitchProps) {
@@ -91,7 +89,7 @@ export default function Pricing({
   return (
     <section
       className={cn(
-        'relative bg-zinc-50 dark:bg-zinc-950 w-full overflow-hidden py-20',
+        'relative w-full overflow-hidden bg-background py-20',
         className,
       )}
     >
@@ -102,9 +100,9 @@ export default function Pricing({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: smoothEase }}
-            className='inline-flex items-center px-4 py-1.5 rounded-full bg-rose-500/10 border border-rose-400/30'
+            className='inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5'
           >
-            <span className='text-sm text-rose-500 font-medium'>
+            <span className='text-sm font-medium text-primary'>
               {subtitle}
             </span>
           </motion.div>
@@ -114,7 +112,7 @@ export default function Pricing({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.9, delay: 0.15, ease: smoothEase }}
-            className='text-4xl md:text-5xl lg:text-6xl font-bold text-zinc-900 dark:text-white'
+            className='text-4xl md:text-5xl lg:text-6xl font-bold text-foreground'
           >
             {title}
           </motion.h2>
@@ -124,7 +122,7 @@ export default function Pricing({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.9, delay: 0.3, ease: smoothEase }}
-            className='text-lg text-zinc-500 dark:text-zinc-400 max-w-md'
+            className='max-w-md text-lg text-muted-foreground'
           >
             {description}
           </motion.p>
@@ -134,7 +132,7 @@ export default function Pricing({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.9, delay: 0.4, ease: smoothEase }}
-            className='flex items-center bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-full px-1 py-1 mt-2 gap-1'
+            className='mt-2 flex items-center gap-1 rounded-full border border-border bg-muted px-1 py-1'
           >
             {[
               { label: 'Monthly', yearly: false },
@@ -151,14 +149,14 @@ export default function Pricing({
                     className={cn(
                       'transition-colors duration-200',
                       isActive
-                        ? 'text-zinc-900 dark:text-white'
-                        : 'text-zinc-400 dark:text-zinc-500',
+                        ? 'text-foreground'
+                        : 'text-muted-foreground',
                     )}
                   >
                     {label}
                   </span>
                   {yearly && (
-                    <span className='inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-rose-100 text-rose-500 dark:bg-rose-500/20 dark:text-rose-400'>
+                    <span className='inline-flex items-center rounded-full bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary'>
                       -20%
                     </span>
                   )}
@@ -189,25 +187,24 @@ export default function Pricing({
                 {isPopular ? (
                   <div
                     className='relative p-0.5 rounded-3xl'
-                    style={{ background: GRADIENT }}
+                    style={{ background: 'var(--primary)' }}
                   >
-                    <Card className='relative rounded-[22px] overflow-visible border-0 bg-white dark:bg-zinc-900'>
+                    <Card className='relative overflow-visible rounded-[22px] border-0 bg-card'>
                       <div
-                        className='absolute -top-px left-1/2 -translate-x-1/2 px-5 py-1.5 rounded-b-2xl text-white text-xs font-semibold tracking-wide whitespace-nowrap z-10'
-                        style={{ background: GRADIENT }}
+                        className='absolute -top-px left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-b-2xl bg-primary px-5 py-1.5 text-xs font-semibold tracking-wide text-primary-foreground'
                       >
                         Popular
                       </div>
 
                       <CardHeader className='px-6 pt-10 pb-0'>
-                        <CardTitle className='text-2xl font-bold text-zinc-900 dark:text-white mb-1'>
+                        <CardTitle className='mb-1 text-2xl font-bold text-foreground'>
                           {tier.name}
                         </CardTitle>
-                        <CardDescription className='text-sm text-zinc-500 dark:text-zinc-400'>
+                        <CardDescription className='text-sm text-muted-foreground'>
                           {tier.description}
                         </CardDescription>
 
-                        <div className='border border-dashed border-zinc-300 dark:border-zinc-700 rounded-2xl px-4 py-3 mt-6 text-center'>
+                        <div className='mt-6 rounded-2xl border border-dashed border-border px-4 py-3 text-center'>
                           <AnimatePresence mode='wait'>
                             <motion.div
                               key={`${tier.name}-${isYearly}`}
@@ -217,16 +214,16 @@ export default function Pricing({
                               transition={{ duration: 0.35, ease: smoothEase }}
                               className='flex items-baseline justify-center gap-1'
                             >
-                              <span className='text-4xl font-bold text-zinc-900 dark:text-white'>
+                              <span className='text-4xl font-bold text-foreground'>
                                 ${price}
                               </span>
-                              <span className='text-zinc-400 text-sm'>
+                              <span className='text-sm text-muted-foreground'>
                                 /month
                               </span>
                             </motion.div>
                           </AnimatePresence>
                           {isYearly && (
-                            <p className='text-xs text-zinc-400 mt-1'>
+                            <p className='mt-1 text-xs text-muted-foreground'>
                               billed annually
                             </p>
                           )}
@@ -237,16 +234,13 @@ export default function Pricing({
                         <div className='flex flex-col gap-3'>
                           {tier.features.map((feature, fi) => (
                             <div key={fi} className='flex items-center gap-3'>
-                              <div
-                                className='w-5 h-5 rounded flex items-center justify-center shrink-0'
-                                style={{ background: GRADIENT }}
-                              >
+                              <div className='flex h-5 w-5 shrink-0 items-center justify-center rounded bg-primary'>
                                 <Check
-                                  className='w-3 h-3 text-white'
+                                  className='w-3 h-3 text-primary-foreground'
                                   strokeWidth={3}
                                 />
                               </div>
-                              <span className='text-sm text-zinc-600 dark:text-zinc-400'>
+                              <span className='text-sm text-muted-foreground'>
                                 {feature}
                               </span>
                             </div>
@@ -254,8 +248,7 @@ export default function Pricing({
                         </div>
 
                         <Button
-                          className='w-full rounded-2xl h-11 font-semibold text-white text-sm hover:opacity-90 transition-opacity border-0'
-                          style={{ background: GRADIENT }}
+                          className='h-11 w-full rounded-2xl border-0 bg-primary text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90'
                         >
                           {tier.buttonText}
                         </Button>
@@ -263,16 +256,16 @@ export default function Pricing({
                     </Card>
                   </div>
                 ) : (
-                  <Card className='rounded-3xl overflow-hidden border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 h-full'>
+                  <Card className='h-full overflow-hidden rounded-3xl border-border bg-card'>
                     <CardHeader className='px-6 pt-8 pb-0'>
-                      <CardTitle className='text-2xl font-bold text-zinc-900 dark:text-white mb-1'>
+                      <CardTitle className='mb-1 text-2xl font-bold text-foreground'>
                         {tier.name}
                       </CardTitle>
-                      <CardDescription className='text-sm text-zinc-500 dark:text-zinc-400'>
+                      <CardDescription className='text-sm text-muted-foreground'>
                         {tier.description}
                       </CardDescription>
 
-                      <div className='border border-dashed border-zinc-200 dark:border-zinc-700 rounded-2xl px-4 py-3 mt-6 text-center'>
+                      <div className='mt-6 rounded-2xl border border-dashed border-border px-4 py-3 text-center'>
                         <AnimatePresence mode='wait'>
                           <motion.div
                             key={`${tier.name}-${isYearly}`}
@@ -282,16 +275,16 @@ export default function Pricing({
                             transition={{ duration: 0.35, ease: smoothEase }}
                             className='flex items-baseline justify-center gap-1'
                           >
-                            <span className='text-4xl font-bold text-zinc-900 dark:text-white'>
+                            <span className='text-4xl font-bold text-foreground'>
                               ${price}
                             </span>
-                            <span className='text-zinc-400 text-sm'>
+                            <span className='text-sm text-muted-foreground'>
                               /month
                             </span>
                           </motion.div>
                         </AnimatePresence>
                         {isYearly && (
-                          <p className='text-xs text-zinc-400 mt-1'>
+                          <p className='mt-1 text-xs text-muted-foreground'>
                             billed annually
                           </p>
                         )}
@@ -302,13 +295,13 @@ export default function Pricing({
                       <div className='flex flex-col gap-3'>
                         {tier.features.map((feature, fi) => (
                           <div key={fi} className='flex items-center gap-3'>
-                            <div className='w-5 h-5 rounded bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center shrink-0'>
+                            <div className='flex h-5 w-5 shrink-0 items-center justify-center rounded bg-muted'>
                               <Check
-                                className='w-3 h-3 text-zinc-500 dark:text-zinc-400'
+                                className='w-3 h-3 text-muted-foreground'
                                 strokeWidth={3}
                               />
                             </div>
-                            <span className='text-sm text-zinc-600 dark:text-zinc-400'>
+                            <span className='text-sm text-muted-foreground'>
                               {feature}
                             </span>
                           </div>
@@ -316,7 +309,7 @@ export default function Pricing({
                       </div>
 
                       <Button
-                        className='w-full rounded-2xl h-11 font-semibold text-sm bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-white transition-colors'
+                        className='h-11 w-full rounded-2xl bg-foreground text-sm font-semibold text-background transition-colors hover:bg-foreground/90'
                         variant='default'
                       >
                         {tier.buttonText}

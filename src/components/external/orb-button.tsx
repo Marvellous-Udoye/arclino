@@ -6,7 +6,7 @@ import { ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const OrbButtonVariants = cva(
-  'group relative inline-flex items-center whitespace-nowrap cursor-pointer font-bold transition-all duration-500 focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 overflow-hidden rounded-full border border-black/30 dark:border-white/30 hover:border-black/60 dark:hover:border-white/60 data-[touched=true]:border-black/60 dark:data-[touched=true]:border-white/60 bg-transparent',
+  'group relative inline-flex items-center overflow-hidden rounded-full border border-border bg-transparent font-bold whitespace-nowrap cursor-pointer transition-all duration-500 focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:border-primary/60 data-[touched=true]:border-primary/60',
   {
     variants: {
       size: {
@@ -80,15 +80,16 @@ const OrbButton = React.forwardRef<HTMLButtonElement, OrbButtonProps>(
         <span
           className={cn(
             'relative shrink-0 rounded-full flex items-center justify-center bg-black dark:bg-white transition-all duration-500 w-2.5 h-2.5',
+            'relative flex h-2.5 w-2.5 shrink-0 items-center justify-center rounded-full bg-primary transition-all duration-500',
             dotExpanded,
             dotClassName,
           )}
         >
-          <span className='text-white dark:text-black flex items-center justify-center opacity-0 scale-50 transition-all duration-300 group-hover:opacity-100 group-hover:scale-100 group-data-[touched=true]:opacity-100 group-data-[touched=true]:scale-100'>
+          <span className='flex items-center justify-center scale-50 text-primary-foreground opacity-0 transition-all duration-300 group-hover:scale-100 group-hover:opacity-100 group-data-[touched=true]:scale-100 group-data-[touched=true]:opacity-100'>
             {resolvedIcon}
           </span>
         </span>
-        <span className='relative z-10 tracking-wide text-black dark:text-white transition-transform duration-500 group-hover:translate-x-1.25 group-data-[touched=true]:translate-x-1.25'>
+        <span className='relative z-10 tracking-wide text-foreground transition-transform duration-500 group-hover:translate-x-1.25 group-data-[touched=true]:translate-x-1.25'>
           {children}
         </span>
       </button>

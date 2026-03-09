@@ -44,12 +44,11 @@ const StripeButton = React.forwardRef<HTMLButtonElement, StripeButtonProps>(
         )}
         {...props}
       >
-        <div className='relative h-full w-full overflow-hidden rounded-2xl p-0.5 transition-all duration-300 ease-in-out bg-zinc-200 dark:bg-zinc-800'>
+        <div className='relative h-full w-full overflow-hidden rounded-2xl bg-border p-0.5 transition-all duration-300 ease-in-out'>
           <div className='absolute inset-0 overflow-hidden rounded-2xl'>
             <motion.div
               className='absolute h-10 w-20 -translate-x-1/2 -translate-y-1/2 blur-xs
-                         [background:linear-gradient(to_right,transparent_20%,#000000_50%,#000000_60%,transparent_80%)] 
-                         dark:[background:linear-gradient(to_right,transparent_20%,#ffffff_50%,#ffffff_60%,transparent_80%)]'
+                         [background:linear-gradient(to_right,transparent_20%,var(--foreground)_50%,var(--foreground)_60%,transparent_80%)]'
               animate={{
                 top: ['0%', '0%', '100%', '100%', '0%'],
                 left: ['0%', '100%', '100%', '0%', '0%'],
@@ -63,8 +62,7 @@ const StripeButton = React.forwardRef<HTMLButtonElement, StripeButtonProps>(
 
             <motion.div
               className='absolute h-10 w-20 -translate-x-1/2 -translate-y-1/2 blur-xs
-                         [background:linear-gradient(to_right,transparent_20%,#000000_50%,#000000_60%,transparent_80%)] 
-                         dark:[background:linear-gradient(to_right,transparent_20%,#ffffff_50%,#ffffff_60%,transparent_80%)]'
+                         [background:linear-gradient(to_right,transparent_20%,var(--foreground)_50%,var(--foreground)_60%,transparent_80%)]'
               animate={{
                 top: ['100%', '100%', '0%', '0%', '100%'],
                 left: ['100%', '0%', '0%', '100%', '100%'],
@@ -80,6 +78,7 @@ const StripeButton = React.forwardRef<HTMLButtonElement, StripeButtonProps>(
           <div
             className={cn(
               'relative z-10 flex items-center justify-center gap-2 rounded-2xl transition-all duration-300 ease-in-out bg-white dark:bg-black overflow-hidden',
+              'relative z-10 flex items-center justify-center gap-2 overflow-hidden rounded-2xl bg-card transition-all duration-300 ease-in-out',
               variant === 'compact' ? 'h-full px-10' : sizeClasses[size],
             )}
           >
@@ -87,30 +86,19 @@ const StripeButton = React.forwardRef<HTMLButtonElement, StripeButtonProps>(
               className='absolute inset-0 pointer-events-none dark:hidden'
               style={{
                 backgroundImage:
-                  'repeating-linear-gradient(120deg, rgba(255, 255, 255, 1), rgba(255, 255, 255, 1) 10px, rgba(100, 100, 100, 1) 10px, rgba(100, 100, 100, 1) 20px)',
+                  'repeating-linear-gradient(120deg, color-mix(in oklab, var(--card) 92%, white), color-mix(in oklab, var(--card) 92%, white) 10px, color-mix(in oklab, var(--border) 80%, black) 10px, color-mix(in oklab, var(--border) 80%, black) 20px)',
                 backgroundPosition: isHovered ? '40px 0' : '0 0',
                 backgroundSize: '28.28px 100%',
                 transition: `background-position ${stripesSpeed}ms ease-out`,
-                opacity: 0.15,
+                opacity: 0.22,
               }}
             />
 
-            <span
-              className='absolute inset-0 pointer-events-none hidden dark:block'
-              style={{
-                backgroundImage:
-                  'repeating-linear-gradient(120deg, rgba(19, 19, 19, 1), rgba(19, 19, 19, 1) 10px, rgba(43, 43, 43, 1) 10px, rgba(43, 43, 43, 1) 20px)',
-                backgroundPosition: isHovered ? '40px 0' : '0 0',
-                backgroundSize: '28.28px 100%',
-                transition: `background-position ${stripesSpeed}ms ease-out`,
-              }}
-            />
-
-            <span className='absolute top-0 left-4 right-4 h-0.5 bg-linear-to-r from-transparent via-slate-400/60 dark:via-white/60 to-transparent pointer-events-none rounded-2xl' />
-            <span className='relative z-10 text-base font-semibold text-black dark:text-white'>
+            <span className='pointer-events-none absolute left-4 right-4 top-0 h-0.5 rounded-2xl bg-linear-to-r from-transparent via-primary/60 to-transparent' />
+            <span className='relative z-10 text-base font-semibold text-foreground'>
               {children}
             </span>
-            <span className='absolute inset-0 rounded-2xl shadow-[inset_0_1px_0_rgba(255,255,255,0.3)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] pointer-events-none' />
+            <span className='pointer-events-none absolute inset-0 rounded-2xl shadow-[inset_0_1px_0_color-mix(in_oklab,var(--foreground)_15%,transparent)]' />
           </div>
         </div>
       </button>

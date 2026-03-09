@@ -183,7 +183,7 @@ const Timeline: React.FC<TimelineProps> = ({
         >
           <div
             className={cn(
-              'absolute top-0 rounded-2xl border border-yellow-500 bg-background overflow-hidden',
+              'absolute top-0 overflow-hidden rounded-2xl border border-primary bg-background',
               containerClassName,
             )}
             style={{
@@ -194,7 +194,7 @@ const Timeline: React.FC<TimelineProps> = ({
           >
             <motion.div
               className={cn(
-                'absolute left-0 top-0 w-7 border border-yellow-500 rounded-full bg-background flex items-center justify-center cursor-ew-resize z-20 select-none',
+                'absolute left-0 top-0 z-20 flex w-7 cursor-ew-resize select-none items-center justify-center rounded-full border border-primary bg-background',
                 handleClassName,
               )}
               onMouseDown={(e: React.MouseEvent<HTMLDivElement>) =>
@@ -209,14 +209,14 @@ const Timeline: React.FC<TimelineProps> = ({
             >
               <div
                 className={cn(
-                  'w-2 h-8 rounded-full bg-yellow-500 pointer-events-none',
+                  'pointer-events-none h-8 w-2 rounded-full bg-primary',
                   handleIndicatorClassName,
                 )}
               />
             </motion.div>
             <motion.div
               className={cn(
-                'absolute right-0 top-0 w-7 border border-yellow-500 rounded-full bg-background flex items-center justify-center cursor-ew-resize z-20 select-none',
+                'absolute right-0 top-0 z-20 flex w-7 cursor-ew-resize select-none items-center justify-center rounded-full border border-primary bg-background',
                 handleClassName,
               )}
               onMouseDown={(e: React.MouseEvent<HTMLDivElement>) =>
@@ -231,7 +231,7 @@ const Timeline: React.FC<TimelineProps> = ({
             >
               <div
                 className={cn(
-                  'w-2 h-8 rounded-full bg-yellow-500 pointer-events-none',
+                  'pointer-events-none h-8 w-2 rounded-full bg-primary',
                   handleIndicatorClassName,
                 )}
               />

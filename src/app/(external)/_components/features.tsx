@@ -14,33 +14,33 @@ import { Card } from "@/components/ui/card";
 
 const features = [
   {
-    title: "Cloud Infrastructure",
-    desc: "Automated scaling and distributed global nodes for zero latency.",
+    title: "Realtime board state",
+    desc: "Nodes, edges, chat, presence, and movement stay in sync across collaborators without losing structure.",
     icon: Cloud,
   },
   {
-    title: "Advanced Analytics",
-    desc: "Real-time traffic monitoring and deep behavioral insights.",
+    title: "Activity that explains change",
+    desc: "Every board mutation is persisted so teams can see what changed, who changed it, and why the flow evolved.",
     icon: BarChart3,
   },
   {
-    title: "Enterprise Security",
-    desc: "Banking-grade encryption and SOC2 compliant data handling.",
+    title: "Workspace-level access control",
+    desc: "Owner, editor, and viewer roles keep access explicit across boards, invites, messages, and shared visibility.",
     icon: ShieldCheck,
   },
   {
-    title: "Native Performance",
-    desc: "Bypass typical JS overhead with our optimized runtime engine.",
+    title: "Live collaboration without chaos",
+    desc: "Presence, locks, and throttled movement stop boards from becoming a collision point during active sessions.",
     icon: Zap,
   },
   {
-    title: "Modular Design",
-    desc: "A strictly typed interface that scales with your growth.",
+    title: "Structured canvas building blocks",
+    desc: "Steps, decisions, notes, inputs, systems, and databases give teams a shared modeling language from the start.",
     icon: Layout,
   },
   {
-    title: "Instant Deployment",
-    desc: "Push to edge in seconds with our integrated CI/CD pipeline.",
+    title: "Invite-based sharing",
+    desc: "Share boards through controlled invite links so collaborators join the workspace with the right role, not guesswork.",
     icon: Check,
   },
 ];
@@ -57,21 +57,19 @@ export default function Features() {
               whileInView={{ opacity: 1, x: 0 }}
               className="text-primary font-black uppercase tracking-[0.2em] text-[10px] mb-4 block"
             >
-              Why choose us
+              Why teams switch
             </motion.span>
             <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight leading-none">
-              Built for the <br />{" "}
+              Built for the board <br />{" "}
               <span className="text-primary underline decoration-primary/20 underline-offset-8">
-                top 1%.
+                behind the product.
               </span>
             </h2>
             <p className="text-muted-foreground text-sm max-w-sm leading-relaxed mb-10">
-              We don&apos;t build generic solutions. We build specific tools for
-              businesses that demand absolute excellence and reliability at
-              scale.
+              Arclino is for teams that need a collaborative map of how work actually moves, not just another blank diagram canvas.
             </p>
             <Button className="px-6 py-6 bg-foreground text-background font-black rounded-xl hover:bg-foreground/90 transition-all text-[10px] uppercase tracking-widest shadow-xl h-12">
-              View Technical Specs
+              Explore the workspace
             </Button>
           </div>
 
@@ -86,7 +84,7 @@ export default function Features() {
                   transition={{ delay: i * 0.1 }}
                 >
                   <Card className="p-8 rounded-3xl bg-muted/20 border border-border/40 hover:bg-muted/40 transition-all group h-full shadow-sm">
-                    <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-500">
+                    <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:text-white transition-all duration-500">
                       <feature.icon className="w-6 h-6" />
                     </div>
                     <h3 className="text-lg font-black mb-3 tracking-tight text-foreground">
