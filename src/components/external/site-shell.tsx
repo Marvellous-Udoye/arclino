@@ -1,19 +1,19 @@
 import Link from "next/link"
 import type { ReactNode } from "react"
 
-const navItems = [
-  { href: "/", label: "Home" },
-  { href: "/solutions", label: "Solutions" },
-  { href: "/customers", label: "Customers" },
-  { href: "/pricing", label: "Pricing" },
-  { href: "/resources", label: "Resources" },
-  { href: "/security", label: "Security" },
-]
+// const navItems = [
+//   { href: "/", label: "Home" },
+//   { href: "/solutions", label: "Solutions" },
+//   { href: "/customers", label: "Customers" },
+//   { href: "/pricing", label: "Pricing" },
+//   { href: "/resources", label: "Resources" },
+//   { href: "/security", label: "Security" },
+// ]
 
 export function SiteShell({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100">
-      <header className="border-b border-white/10">
+      {/* <header className="border-b border-white/10">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <Link href="/" className="text-lg font-semibold">
             Arclino
@@ -29,7 +29,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
             </Link>
           </nav>
         </div>
-      </header>
+      </header> */}
       {children}
       <footer className="border-t border-white/10">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-6 text-sm text-zinc-500">
