@@ -112,7 +112,7 @@ export default function Testimonials() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.65 }}
-          className='w-full'
+          className='w-full mb-16'
         >
           <AnimatedTestimonials data={testimonials} />
         </motion.div>

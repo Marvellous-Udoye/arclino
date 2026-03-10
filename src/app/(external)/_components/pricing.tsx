@@ -89,12 +89,16 @@ export default function Pricing({
   return (
     <section
       className={cn(
-        'relative w-full overflow-hidden bg-background py-20',
+        'relative w-full overflow-hidden bg-background py-32',
         className,
       )}
     >
-      <div className='mx-auto max-w-7xl px-4 sm:px-6'>
-        <div className='flex flex-col items-center text-center gap-4 mb-12'>
+      <div className='absolute inset-0 opacity-[0.03] pointer-events-none'>
+        <div className='absolute inset-0 bg-[radial-gradient(circle_at_top_right,var(--primary)_0%,transparent_50%)]' />
+      </div>
+
+      <div className='relative mx-auto max-w-7xl px-4 sm:px-6'>
+        <div className='flex flex-col items-center text-center gap-6 mb-20'>
           <motion.div
             initial={{ opacity: 0, y: -12 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -102,7 +106,7 @@ export default function Pricing({
             transition={{ duration: 0.8, ease: smoothEase }}
             className='inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5'
           >
-            <span className='text-sm font-medium text-primary'>
+            <span className='text-[10px] font-bold uppercase tracking-[0.3em] text-primary'>
               {subtitle}
             </span>
           </motion.div>
@@ -112,7 +116,7 @@ export default function Pricing({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.9, delay: 0.15, ease: smoothEase }}
-            className='text-4xl md:text-5xl lg:text-6xl font-bold text-foreground'
+            className='text-4xl md:text-7xl font-black text-foreground leading-[1.1]'
           >
             {title}
           </motion.h2>
@@ -122,7 +126,7 @@ export default function Pricing({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.9, delay: 0.3, ease: smoothEase }}
-            className='max-w-md text-lg text-muted-foreground'
+            className='max-w-2xl text-lg md:text-xl text-muted-foreground'
           >
             {description}
           </motion.p>
@@ -196,76 +200,76 @@ export default function Pricing({
                         Popular
                       </div>
 
-                      <CardHeader className='px-6 pt-10 pb-0'>
-                        <CardTitle className='mb-1 text-2xl font-bold text-foreground'>
-                          {tier.name}
-                        </CardTitle>
-                        <CardDescription className='text-sm text-muted-foreground'>
-                          {tier.description}
-                        </CardDescription>
+                        <CardHeader className='px-8 pt-12 pb-0'>
+                          <CardTitle className='mb-2 text-3xl font-black text-foreground'>
+                            {tier.name}
+                          </CardTitle>
+                          <CardDescription className='text-base text-muted-foreground'>
+                            {tier.description}
+                          </CardDescription>
 
-                        <div className='mt-6 rounded-2xl border border-dashed border-border px-4 py-3 text-center'>
-                          <AnimatePresence mode='wait'>
-                            <motion.div
-                              key={`${tier.name}-${isYearly}`}
-                              initial={{ opacity: 0, y: -8 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              exit={{ opacity: 0, y: 8 }}
-                              transition={{ duration: 0.35, ease: smoothEase }}
-                              className='flex items-baseline justify-center gap-1'
-                            >
-                              <span className='text-4xl font-bold text-foreground'>
-                                ${price}
-                              </span>
-                              <span className='text-sm text-muted-foreground'>
-                                /month
-                              </span>
-                            </motion.div>
-                          </AnimatePresence>
-                          {isYearly && (
-                            <p className='mt-1 text-xs text-muted-foreground'>
-                              billed annually
-                            </p>
-                          )}
-                        </div>
-                      </CardHeader>
+                          <div className='mt-8 rounded-3xl border border-dashed border-border/50 bg-background/50 px-6 py-5 text-center'>
+                            <AnimatePresence mode='wait'>
+                              <motion.div
+                                key={`${tier.name}-${isYearly}`}
+                                initial={{ opacity: 0, y: -8 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: 8 }}
+                                transition={{ duration: 0.35, ease: smoothEase }}
+                                className='flex items-baseline justify-center gap-2'
+                              >
+                                <span className='text-5xl font-black text-foreground'>
+                                  ${price}
+                                </span>
+                                <span className='text-base font-medium text-muted-foreground'>
+                                  /month
+                                </span>
+                              </motion.div>
+                            </AnimatePresence>
+                            {isYearly && (
+                              <p className='mt-2 text-[10px] font-bold uppercase tracking-wider text-primary'>
+                                billed annually
+                              </p>
+                            )}
+                          </div>
+                        </CardHeader>
 
-                      <CardContent className='px-6 pt-6 pb-8 flex flex-col gap-6'>
-                        <div className='flex flex-col gap-3'>
-                          {tier.features.map((feature, fi) => (
-                            <div key={fi} className='flex items-center gap-3'>
-                              <div className='flex h-5 w-5 shrink-0 items-center justify-center rounded bg-primary'>
-                                <Check
-                                  className='w-3 h-3 text-primary-foreground'
-                                  strokeWidth={3}
-                                />
+                        <CardContent className='px-8 pt-8 pb-10 flex flex-col gap-8'>
+                          <div className='flex flex-col gap-4'>
+                            {tier.features.map((feature, fi) => (
+                              <div key={fi} className='flex items-center gap-4'>
+                                <div className='flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-primary'>
+                                  <Check
+                                    className='w-3.5 h-3.5 text-primary-foreground'
+                                    strokeWidth={4}
+                                  />
+                                </div>
+                                <span className='text-base font-medium text-muted-foreground'>
+                                  {feature}
+                                </span>
                               </div>
-                              <span className='text-sm text-muted-foreground'>
-                                {feature}
-                              </span>
-                            </div>
-                          ))}
-                        </div>
+                            ))}
+                          </div>
 
-                        <Button
-                          className='h-11 w-full rounded-2xl border-0 bg-primary text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90'
-                        >
-                          {tier.buttonText}
-                        </Button>
-                      </CardContent>
+                          <Button
+                            className='h-14 w-full rounded-[1.25rem] border-0 bg-primary text-base font-bold text-primary-foreground transition-all hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/20'
+                          >
+                            {tier.buttonText}
+                          </Button>
+                        </CardContent>
                     </Card>
                   </div>
                 ) : (
                   <Card className='h-full overflow-hidden rounded-3xl border-border bg-card'>
-                    <CardHeader className='px-6 pt-8 pb-0'>
-                      <CardTitle className='mb-1 text-2xl font-bold text-foreground'>
+                    <CardHeader className='px-8 pt-10 pb-0'>
+                      <CardTitle className='mb-2 text-3xl font-bold text-foreground'>
                         {tier.name}
                       </CardTitle>
-                      <CardDescription className='text-sm text-muted-foreground'>
+                      <CardDescription className='text-base text-muted-foreground'>
                         {tier.description}
                       </CardDescription>
 
-                      <div className='mt-6 rounded-2xl border border-dashed border-border px-4 py-3 text-center'>
+                      <div className='mt-8 rounded-[1.75rem] border border-dashed border-border px-6 py-5 text-center'>
                         <AnimatePresence mode='wait'>
                           <motion.div
                             key={`${tier.name}-${isYearly}`}
@@ -273,35 +277,35 @@ export default function Pricing({
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: 8 }}
                             transition={{ duration: 0.35, ease: smoothEase }}
-                            className='flex items-baseline justify-center gap-1'
+                            className='flex items-baseline justify-center gap-2'
                           >
-                            <span className='text-4xl font-bold text-foreground'>
+                            <span className='text-5xl font-bold text-foreground'>
                               ${price}
                             </span>
-                            <span className='text-sm text-muted-foreground'>
+                            <span className='text-base text-muted-foreground'>
                               /month
                             </span>
                           </motion.div>
                         </AnimatePresence>
                         {isYearly && (
-                          <p className='mt-1 text-xs text-muted-foreground'>
+                          <p className='mt-2 text-[10px] font-bold uppercase tracking-wider text-muted-foreground'>
                             billed annually
                           </p>
                         )}
                       </div>
                     </CardHeader>
 
-                    <CardContent className='px-6 pt-6 pb-8 flex flex-col gap-6'>
-                      <div className='flex flex-col gap-3'>
+                    <CardContent className='px-8 pt-8 pb-10 flex flex-col gap-8'>
+                      <div className='flex flex-col gap-4'>
                         {tier.features.map((feature, fi) => (
-                          <div key={fi} className='flex items-center gap-3'>
-                            <div className='flex h-5 w-5 shrink-0 items-center justify-center rounded bg-muted'>
+                          <div key={fi} className='flex items-center gap-4'>
+                            <div className='flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-muted'>
                               <Check
-                                className='w-3 h-3 text-muted-foreground'
-                                strokeWidth={3}
+                                className='w-3.5 h-3.5 text-muted-foreground'
+                                strokeWidth={4}
                               />
                             </div>
-                            <span className='text-sm text-muted-foreground'>
+                            <span className='text-base text-muted-foreground'>
                               {feature}
                             </span>
                           </div>
@@ -309,7 +313,7 @@ export default function Pricing({
                       </div>
 
                       <Button
-                        className='h-11 w-full rounded-2xl bg-foreground text-sm font-semibold text-background transition-colors hover:bg-foreground/90'
+                        className='h-14 w-full rounded-[1.25rem] bg-foreground text-base font-bold text-background transition-colors hover:bg-foreground/90'
                         variant='default'
                       >
                         {tier.buttonText}

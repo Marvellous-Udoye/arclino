@@ -61,83 +61,88 @@ export default function FrequentlyAskedQuestions({
   const words = title.split(' ');
 
   return (
-    <section className={cn('relative w-full overflow-hidden py-24', className)}>
-      <div className='mx-auto max-w-5xl px-6'>
-        <h2 className='relative z-10 mx-auto max-w-4xl text-center text-3xl font-bold tracking-tight text-foreground md:text-5xl lg:text-6xl'>
-          {words.map((word, index) => (
-            <motion.span
-              key={`${word}-${index}`}
-              initial={{ opacity: 0, filter: 'blur(6px)', y: 12 }}
-              whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
-              viewport={{ once: true }}
-              transition={{
-                duration: 0.4,
-                delay: index * 0.08,
-                ease: 'easeInOut',
-              }}
-              className='mr-2 inline-block'
-            >
-              {word}
-            </motion.span>
-          ))}
-        </h2>
+    <section className={cn('relative w-full overflow-hidden pb-32', className)}>
+      <div className='absolute inset-0 opacity-[0.03] pointer-events-none'>
+        <div className='absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,var(--primary)_0%,transparent_50%)]' />
+      </div>
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className='relative z-10 mx-auto mt-6 max-w-2xl text-center text-base text-muted-foreground md:text-lg'
-        >
-          {description}{' '}
-          <a
-            href={`mailto:${supportEmail}`}
-            className='text-primary underline underline-offset-4 transition-opacity hover:opacity-80'
+      <div className='relative mx-auto max-w-7xl px-6'>
+        <div className='flex flex-col items-center gap-6 text-center mb-20'>
+          <h2 className='max-w-4xl text-4xl font-black tracking-tight text-foreground md:text-7xl leading-[1.1]'>
+            {words.map((word, index) => (
+              <motion.span
+                key={`${word}-${index}`}
+                initial={{ opacity: 0, filter: 'blur(6px)', y: 12 }}
+                whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
+                viewport={{ once: true }}
+                transition={{
+                  duration: 0.4,
+                  delay: index * 0.08,
+                  ease: 'easeInOut',
+                }}
+                className='mr-4 inline-block'
+              >
+                {word}
+              </motion.span>
+            ))}
+          </h2>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className='max-w-2xl text-lg md:text-xl text-muted-foreground'
           >
-            {supportEmail}
-          </a>
-        </motion.p>
+            {description}{' '}
+            <a
+              href={`mailto:${supportEmail}`}
+              className='text-primary font-bold underline underline-offset-4 transition-opacity hover:opacity-80'
+            >
+              {supportEmail}
+            </a>
+          </motion.p>
+        </div>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-          className='mt-16'
+          transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
         >
           <LayerStack
-            cardWidth={360}
-            cardGap={16}
-            stageHeight={320}
+            cardWidth={400}
+            cardGap={24}
+            stageHeight={400}
             lastCardFullWidth={true}
             mobileSensitivity={1.8}
           >
             {data.map((item, index) => (
               <Card
                 key={index}
-                className='overflow-hidden border border-border bg-card text-foreground'
+                className='overflow-hidden rounded-[2.5rem] border border-border bg-card/50 backdrop-blur-sm text-foreground transition-all hover:border-primary/20'
               >
-                <div className='flex h-full flex-col justify-between gap-4 p-6 md:p-8'>
+                <div className='flex h-full flex-col justify-between gap-8 p-10 md:p-12'>
                   <div className='flex items-center justify-between'>
-                    <span className='text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground'>
-                      {String(index + 1).padStart(2, '0')}
+                    <span className='text-[10px] font-bold uppercase tracking-[0.2em] text-primary'>
+                      FAQ 0{index + 1}
                     </span>
-                    <div className='size-1.5 rounded-full bg-foreground/20' />
+                    <div className='size-2 rounded-full bg-primary/20' />
                   </div>
 
-                  <div className='flex-1 space-y-3'>
-                    <div className='h-px w-8 bg-border' />
-                    <h3 className='text-xl font-semibold leading-tight tracking-tight md:text-2xl'>
+                  <div className='flex-1 space-y-4'>
+                    <div className='h-px w-12 bg-primary/30' />
+                    <h3 className='text-2xl font-bold leading-tight tracking-tight md:text-3xl'>
                       {item.question}
                     </h3>
-                    <p className='text-sm leading-relaxed text-muted-foreground'>
+                    <p className='text-base leading-relaxed text-muted-foreground'>
                       {item.answer}
                     </p>
                   </div>
 
-                  <div className='border-t border-border pt-3'>
-                    <p className='text-[10px] uppercase tracking-[0.14em] text-muted-foreground'>
-                      Question {index + 1} of {data.length}
+                  <div className='border-t border-border/50 pt-4'>
+                    <p className='text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground/50'>
+                      Resolution {index + 1} of {data.length}
                     </p>
                   </div>
                 </div>
