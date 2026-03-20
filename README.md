@@ -1,152 +1,160 @@
 # Arclino
 
-Arclino is a realtime collaborative flowchart workspace. The current implementation prioritizes SSR, Supabase Auth, strict RLS, Pusher presence/events, React Flow canvas persistence, workspace roles, chat, activity, and invite links.
+Arclino is a realtime collaborative flowchart workspace for teams. It ships authentication, server-side session handling, strict Supabase RLS authorization, and Pusher-powered presence + realtime board events on top of a React Flow canvas.
 
-## Stack
+This repo is intentionally biased toward correctness and security over marketing polish.
 
-- Next.js 16 App Router
-- React 19 + TypeScript
-- TailwindCSS 4 + shadcn/ui
-- Supabase Auth + Postgres
-- Pusher presence/private channels
-- React Flow
-- Zustand
-- Zod
-- React Hook Form
+## Core Capabilities
 
-## Routes
+- Supabase Auth with email/password and Google OAuth
+- SSR-safe session handling in Next.js App Router (cookies + middleware)
+- Workspaces and workspace-level roles (`owner`, `editor`, `viewer`)
+- Boards list + board room
+- React Flow canvas persistence (nodes/edges)
+- Pusher presence + typed realtime events
+- Chat, activity feed, and invite links
+- Strict Supabase RLS and validated server boundaries
 
-Public marketing:
+## Technology Stack
+
+- Next.js `16.1.6` (App Router)
+- React `19.2.3` + TypeScript `5`
+- TailwindCSS `4` + shadcn/ui (Radix primitives)
+- Supabase (`@supabase/ssr`, `@supabase/supabase-js`) + Postgres
+- Pusher (`pusher`, `pusher-js`) for presence/events
+- React Flow (`reactflow`) for the canvas
+- TanStack Query `5` for server state
+- Zustand `5` for client board state + applying remote events
+- Zod `4` for validation at server boundaries
+- React Hook Form for form handling
+
+## Route Map
+
+Public marketing routes (`src/app/(external)`):
 
 - `/`
-- `/solutions`
-- `/solutions/product-teams`
-- `/solutions/engineering`
-- `/solutions/startups`
-- `/customers`
-- `/customers/case-studies/[slug]`
+- `/solutions`, `/solutions/product-teams`, `/solutions/engineering`, `/solutions/startups`
+- `/customers`, `/customers/case-studies/[slug]`
 - `/pricing`
-- `/resources`
-- `/resources/blog`
-- `/resources/blog/[slug]`
-- `/resources/changelog`
-- `/resources/help-center`
-- `/about`
-- `/contact`
-- `/security`
-- `/legal/privacy`
-- `/legal/terms`
+- `/resources`, `/resources/blog`, `/resources/blog/[slug]`, `/resources/changelog`, `/resources/help-center`
+- `/about`, `/contact`, `/security`
+- `/legal/privacy`, `/legal/terms`
 
-Auth:
+Auth routes (`src/app/(auth)`):
 
 - `/login`
 - `/signup`
 - `/forgot-password`
-- `/callback`
+- `/callback` (OAuth callback)
 
-Protected app:
+Protected app routes (`src/app/(dashboard)`):
 
 - `/dashboard`
 - `/dashboard/boards/[boardId]`
 - `/dashboard/settings/members`
 - `/dashboard/settings/profile`
+
+Other required routes:
+
 - `/onboarding/workspace`
 - `/invite/board/[token]`
 
-API routes:
+Route handlers:
 
 - `/api/session`
 - `/api/pusher/auth`
 - `/api/proxy-auth/[...path]`
 
-## Architecture
+## Project Structure
 
-Pages under `src/app` are intentionally thin. They do SSR session/data loading and compose feature modules.
+```text
+src/
+├── app/
+│   ├── (external)/              # Public marketing pages
+│   ├── (auth)/                  # Login/signup/forgot/callback
+│   ├── (dashboard)/             # Protected application routes
+│   └── api/                     # Route handlers (session, pusher, proxies)
+├── features/                    # Domain-first code
+│   ├── auth/
+│   ├── workspace/
+│   ├── boards/
+│   ├── canvas/
+│   ├── realtime/
+│   ├── chat/
+│   ├── activity/
+│   └── invites/
+├── components/                  # Shared components (UI only)
+│   ├── ui/                      # shadcn/ui primitives
+│   └── external/                # marketing shared components
+├── lib/
+│   ├── supabase/                # SSR/browser/admin/middleware clients
+│   ├── pusher/                  # Pusher client/server helpers
+│   └── auth/                    # session helpers and route guards
+├── stores/                      # Zustand stores (board state, reducers)
+├── hooks/                       # Generic hooks only (no domain hooks)
+└── types/                       # Shared TS types
 
-Business logic lives under `src/features/*`:
+supabase/
+└── migrations/                  # schema, RPCs, indexes, RLS
+```
 
-- `auth`
-- `workspace`
-- `boards`
-- `canvas`
-- `realtime`
-- `chat`
-- `activity`
-- `invites`
+## Architecture Rules (Short Version)
 
-Each feature can contain:
+- Pages under `src/app` must stay thin: SSR bootstrapping, redirects, composition only.
+- Domain logic belongs in `src/features/*`.
+- Use route handlers for HTTP concerns (OAuth callbacks, webhooks, `/api/*` endpoints).
+- Use server actions for tightly UI-coupled server work (form orchestration), not as a general API layer.
+- Validate server inputs/outputs with Zod.
+- Treat Supabase RLS as the source of truth for authorization.
 
-- `actions/` for server actions
-- `components/` for UI
-- `queries/` for SSR data loading helpers
-- `schemas/` for Zod validation
-- `hooks/` for domain-specific client hooks
-- `utils/` for feature-local helpers
+## Roles & Permissions
 
-Global/shared areas:
+Workspace roles are workspace-wide (v1):
 
-- `src/lib/supabase/*` for SSR, browser, admin, and middleware clients
-- `src/lib/pusher/*` for client/server Pusher helpers
-- `src/lib/auth/session.ts` for route/session guards
-- `src/stores/board-store.ts` for hydrated board state and typed realtime application
-- `src/hooks/*` only for generic hooks
-- `supabase/migrations/*` for schema, RPCs, indexes, and RLS
-
-## Roles
-
-Workspace roles are workspace-wide:
-
-- `owner`: manage members, invite links, boards
-- `editor`: create/update boards, nodes, edges, activity
-- `viewer`: read boards and send chat only
+- `viewer`: read boards/nodes/edges/events and send chat only
+- `editor`: create/update/delete boards/nodes/edges and write activity
+- `owner`: everything editors can do plus member/invite management
 
 ## Realtime
 
 Pusher channels:
 
 - `presence-board-[boardId]`
-- `private-board-[boardId]` (reserved for future/private fan-out)
+- `private-board-[boardId]`
 
-Broadcast event types:
+Board event types:
 
-- `board:node_created`
-- `board:node_updated`
-- `board:node_moved`
-- `board:node_deleted`
-- `board:edge_created`
-- `board:edge_updated`
-- `board:edge_deleted`
+- `board:node_created`, `board:node_updated`, `board:node_moved`, `board:node_deleted`
+- `board:edge_created`, `board:edge_updated`, `board:edge_deleted`
 - `board:chat_message`
-- `board:node_lock`
-- `board:node_unlock`
+- `board:node_lock`, `board:node_unlock`
 
-The client subscribes once per board and applies remote events through a single Zustand handler.
+Clients subscribe once per board and apply events through the typed Zustand reducer (`src/stores/board-store.ts`).
 
-## Database
+## Database (Supabase)
 
-Migrations live in `supabase/migrations` and create:
+Tables:
 
-- `profiles`
-- `workspaces`
-- `workspace_members`
-- `boards`
-- `board_nodes`
-- `board_edges`
-- `board_messages`
-- `board_events`
-- `board_invite_links`
+- `profiles`, `workspaces`, `workspace_members`
+- `boards`, `board_nodes`, `board_edges`
+- `board_messages`, `board_events`, `board_invite_links`
 
-Important database behavior:
+RPCs:
 
-- strict RLS on every table
+- `ensure_profile`
+- `create_workspace_with_owner`
+- `accept_board_invite`
+
+RLS intent:
+
 - membership required for board reads
-- viewers can only write `board_messages`
-- owners only can manage invite links and workspace membership
-- atomic RPCs for `ensure_profile`, `create_workspace_with_owner`, and `accept_board_invite`
+- owner/editor can mutate boards, nodes, edges
+- viewer can only insert `board_messages`
+- owner only can manage invite links and workspace membership
 
-## Environment
+## Environment Variables
 
-Copy `.env.example` to `.env.local` and provide:
+Copy `.env.example` to `.env.local` and set:
 
 ```bash
 NEXT_PUBLIC_APP_URL=http://localhost:3000
@@ -168,29 +176,28 @@ pnpm install
 pnpm dev
 ```
 
-Checks:
+## Quality Checks
 
 ```bash
 pnpm check-types
-pnpm exec eslint src middleware.ts
+pnpm lint
 ```
 
-## Manual Verification
+## Manual Verification (Realtime Smoke Test)
 
-Use two browser sessions, one normal and one incognito:
+Use two browser sessions (normal + incognito):
 
 1. Sign in as two users in the same workspace.
 2. Open the same board in both sessions.
 3. Confirm presence updates on join/leave.
-4. Create, move, edit, and delete nodes and edges.
-5. Confirm chat messages appear in realtime.
-6. Confirm activity feed updates and remains capped to 50 recent rows.
-7. Generate an invite as owner and accept it from the second session.
+4. Create/move/edit/delete nodes and edges.
+5. Confirm chat messages arrive in realtime.
+6. Confirm activity feed updates.
+7. Generate an invite as `owner` and accept it from the second session.
 
 ## Conventions
 
-- All new filenames use kebab-case.
-- Do not put domain logic directly in `page.tsx`.
-- Validate all server-side inputs with Zod.
+- New filenames use kebab-case.
+- Do not place reusable domain logic in `page.tsx`.
 - Use `src/hooks` only for generic hooks.
-- Treat Supabase RLS as the source of truth for authorization.
+- Keep client components focused on interaction/state; keep data reads SSR-first where reasonable.
