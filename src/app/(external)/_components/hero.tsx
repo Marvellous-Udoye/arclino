@@ -11,20 +11,20 @@ const HERO_IMAGES = [
   {
     src: "/assets/hero-image-2.avif",
     alt: "Team Meeting",
-    className: "top-[20%] right-[8%] w-72 h-48 rotate-[6deg]",
+    className: "top-[18%] right-[6%] h-36 w-52 rotate-[6deg] lg:h-44 lg:w-64 xl:h-48 xl:w-72",
     delay: 0.6,
   },
   {
     src: "/assets/hero-image-4.jpg",
     alt: "Architecture",
-    className: "bottom-[10%] right-[5%] w-64 h-40 rotate-[-5deg]",
+    className: "bottom-[12%] right-[4%] h-28 w-44 rotate-[-5deg] lg:h-36 lg:w-56 xl:h-40 xl:w-64",
     delay: 1.0,
   },
 ];
 
 export default function HeroSection() {
   return (
-    <section className="relative min-h-screen w-full overflow-hidden bg-background flex items-center justify-center pt-36" id="top">
+    <section className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-background px-4 pt-28 sm:px-6 sm:pt-32 md:pt-36" id="top">
        <div
         className="absolute inset-x-0 top-0 h-64 pointer-events-none"
         style={{
@@ -44,7 +44,7 @@ export default function HeroSection() {
       </div>
 
       {/* Scattered Images */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden hidden lg:block">
+      <div className="pointer-events-none absolute inset-0 hidden overflow-hidden md:block">
         {HERO_IMAGES.map((img, i) => (
           <motion.div
             key={i}
@@ -63,8 +63,8 @@ export default function HeroSection() {
         ))}
       </div>
 
-      <div className="relative flex flex-col items-center z-10">
-        <div className="flex flex-col items-center justify-center px-6 text-center">
+      <div className="relative z-10 flex w-full max-w-6xl flex-col items-center">
+        <div className="flex w-full flex-col items-center justify-center px-2 text-center sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: -16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -89,7 +89,7 @@ export default function HeroSection() {
                 delay: 0.2,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="text-5xl md:text-8xl font-black tracking-tight leading-none text-center text-foreground"
+              className="text-center text-4xl font-black leading-[0.92] tracking-tight text-foreground sm:text-5xl md:text-7xl xl:text-8xl"
             >
               Collaborate Without
             </motion.h1>
@@ -102,7 +102,7 @@ export default function HeroSection() {
                 delay: 0.32,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="text-5xl md:text-8xl font-black tracking-tight leading-none text-center text-foreground"
+              className="text-center text-4xl font-black leading-[0.92] tracking-tight text-foreground sm:text-5xl md:text-7xl xl:text-8xl"
             >
               Boundaries
             </motion.h1>
@@ -115,7 +115,7 @@ export default function HeroSection() {
                 delay: 0.44,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="mt-4"
+              className="mt-3 w-full max-w-full sm:mt-4"
             >
               <Timeline
                 rotation={-1.2}
@@ -125,7 +125,7 @@ export default function HeroSection() {
                 handleClassName="bg-background border-primary"
                 handleIndicatorClassName="bg-primary"
               >
-                <TimelineText className="text-4xl md:text-8xl font-black tracking-tight py-4 text-primary">
+                <TimelineText className="py-3 text-3xl font-black tracking-tight text-primary sm:text-4xl md:text-7xl xl:text-8xl">
                   The flow behind the work.
                 </TimelineText>
               </Timeline>
@@ -136,7 +136,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5, ease: "easeOut" }}
-            className="mt-12 max-w-2xl text-center text-lg md:text-xl leading-relaxed text-muted-foreground"
+            className="mt-10 max-w-xl text-center text-base leading-relaxed text-muted-foreground sm:mt-12 sm:max-w-2xl sm:text-lg md:text-xl"
           >
             Arclino is the realtime collaborative workspace for teams that need shared board state, clear permissions, and lightning-fast execution.
           </motion.p>
@@ -145,18 +145,18 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
-            className="mt-10 flex flex-col items-center gap-4 sm:flex-row"
+            className="mt-8 flex w-full flex-col items-center gap-3 sm:mt-10 sm:w-auto sm:flex-row sm:gap-4"
           >
             <Link
               href="/signup"
-              className="group relative h-14 px-10 flex items-center justify-center rounded-2xl bg-primary text-lg font-bold text-primary-foreground transition-all hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(34,211,238,0.4)]"
+              className="group relative flex h-14 w-full items-center justify-center rounded-2xl bg-primary px-6 text-base font-bold text-primary-foreground transition-all hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] sm:w-auto sm:px-10 sm:text-lg"
             >
               Create workspace
               <span className="ml-2 transition-transform duration-300 group-hover:translate-x-1">→</span>
             </Link>
             <Link
               href="/solutions"
-              className="h-14 px-10 flex items-center justify-center rounded-2xl border border-border bg-card/60 text-lg font-bold text-foreground backdrop-blur-sm transition-all hover:bg-card hover:border-primary/20"
+              className="flex h-14 w-full items-center justify-center rounded-2xl border border-border bg-card/60 px-6 text-base font-bold text-foreground backdrop-blur-sm transition-all hover:bg-card hover:border-primary/20 sm:w-auto sm:px-10 sm:text-lg"
             >
               See the platform
             </Link>

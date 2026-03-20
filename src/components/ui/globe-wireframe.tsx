@@ -15,7 +15,6 @@ interface GlobeWireframeProps {
 
 export default function GlobeWireframe({
   className = 'aspect-square w-full max-w-150',
-  // unused props for now as this is a fallback, but defined to fix TS errors
   variant,
   autoRotate,
   autoRotateSpeed,
@@ -23,6 +22,13 @@ export default function GlobeWireframe({
   graticuleOpacity,
   scale,
 }: GlobeWireframeProps) {
+  void variant;
+  void autoRotate;
+  void autoRotateSpeed;
+  void strokeWidth;
+  void graticuleOpacity;
+  void scale;
+
   return (
     <div className={cn('relative flex items-center justify-center', className)}>
       <svg
